@@ -1,0 +1,14 @@
+{
+    "watch": [
+        "server.ts",
+        "src/**/*.ts"
+    ],
+    "execMap": {
+        "ts": "ts-node"
+    },
+    "ext": "ts",
+    "ignore": [
+        "node_modules/*",
+        "dist/*"
+    ]
+}

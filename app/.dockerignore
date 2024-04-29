@@ -1,0 +1,17 @@
+# Ignore everything
+*
+
+# Allow files and directories required for the build
+!build/entrypoint.sh
+!client/
+!server/
+!server/package.json
+!server/package-lock.json
+
+# Ignore node_modules and OS generated files everywhere
+**/node_modules
+**/.DS_Store
+
+# Specific ignores for other non-required directories and files
+**/models
+**/.storage
