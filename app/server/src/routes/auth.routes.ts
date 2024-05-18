@@ -1,3 +1,4 @@
+// Path: /api/auth
 import { Router } from 'express';
 import { login, signupAdmin } from '../controllers/auth.controller';
 

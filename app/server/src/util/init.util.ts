@@ -22,13 +22,13 @@ const initialCompanyContent = {
     {
       title: 'Company Summary',
       prompt:
-        'This section is called "Company Summary" and contain 2 sentences detailing what the company does.  Follow this with a directly URL to the company website',
+        'This section should contain 2 sentences detailing what the company does. Follow this with a direct URL to the company website',
       gridCoordinates: { x: 0, y: 0, w: 6, h: 2 },
       color: 'lightblue',
     },
     {
       title: 'Company Details',
-      prompt: `This section is called \"Company Details\" and should have multiple bullet points covering\:
+      prompt: `This section should have multiple bullet points covering:
     1. Is the company Public or Private
     If public, include a link to their Financial Statements.
     If Private, who owns the company?
@@ -41,7 +41,7 @@ const initialCompanyContent = {
     },
     {
       title: 'Revenue',
-      prompt: `This section is called \"Revenue\" and should have multiple bullet points covering\:
+      prompt: `This section should have multiple bullet points covering:
     1. What is the company's annual revenue?
     2. What are the different revenue streams and % of total revenue?
     `,
@@ -50,7 +50,7 @@ const initialCompanyContent = {
     },
     {
       title: 'Subsidiaries and Major Divisions',
-      prompt: `This section is called \"Subsidiaries and Major Divisions\" and should have multiple bullet points covering\:
+      prompt: `This section should have multiple bullet points covering\:
     What subsidiaries does this company have and or what are the major divisions of the company?
     `,
       gridCoordinates: { x: 0, y: 6, w: 6, h: 2 },
@@ -58,7 +58,7 @@ const initialCompanyContent = {
     },
     {
       title: 'Spend and Supply Chain',
-      prompt: `This section is called \"Spend and Supply Chain\" and should have multiple bullet points covering\:
+      prompt: `This section should have multiple bullet points covering\:
     1. How much does the company spend annually?
     2. What type of direct spend does the company require?
     3. What are the spend categories?
@@ -71,25 +71,25 @@ const initialCompanyContent = {
     },
     {
       title: 'Growth Strategy',
-      prompt: `This section is called \"Growth Strategy\" and should contain a bullet points listing the company's top 5 strategic priorities`,
+      prompt: `This section should contain a bullet points listing the company's top 5 strategic priorities`,
       gridCoordinates: { x: 0, y: 10, w: 6, h: 2 },
       color: 'lightgrey',
     },
     {
       title: 'Partners',
-      prompt: `This section is called \"Partners\" and should answer the question, Does this company partner with other companies and if so who?`,
+      prompt: `This section should answer the question, Does this company partner with other companies and if so who?`,
       gridCoordinates: { x: 0, y: 12, w: 6, h: 2 },
       color: 'lightcoral',
     },
     {
       title: 'Contract Management',
-      prompt: `This section is called \"Contract Management\" and should contain no more than 5 sentences giving examples of where contract management could help with upcoming head and tail winds in their industry`,
+      prompt: `This section should contain no more than 5 sentences giving examples of where contract management could help with upcoming head and tail winds in their industry`,
       gridCoordinates: { x: 0, y: 14, w: 6, h: 2 },
       color: 'lightcyan',
     },
     {
       title: 'Key Clauses',
-      prompt: `This section is called \"Key Clauses\" and should answer the following questions\:
+      prompt: `This section should answer the following questions\:
     1. What contractual clauses are unique to this company?
     2. What clauses cuase the most amount of risk and obligations?
     `,
@@ -98,7 +98,7 @@ const initialCompanyContent = {
     },
     {
       title: 'Titles to Reach Out To',
-      prompt: `This section is called \"Titles to Reach Out To\" and should be a bullet list of the titles that would want to learn about contract management.  
+      prompt: `This section should be a bullet list of the titles that would want to learn about contract management.  
     No more than 10.  These titles should not include C level of heads of departments.  Make sure the titles are specific to the industry.
     For example, don’t just put procurement, but the category spend buyer as an example.
     `,

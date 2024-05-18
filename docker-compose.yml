@@ -9,7 +9,6 @@ services:
       target: development
     volumes:
       - ./app/server:/app/server
-      - backend_node-modules:/app/server/node_modules
     ports:
       - '3001:3001'
     depends_on:
@@ -44,5 +43,4 @@ services:
 
 volumes:
   postgres-data:
-  backend_node-modules:
   pgadmin-data:

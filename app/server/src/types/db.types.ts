@@ -5,7 +5,6 @@ export type IReadUser = {
   email: string;
   first_name: string;
   last_name: string;
-  password: string;
   isAdmin: boolean;
   isSuperAdmin: boolean;
   company: IReadCompany;
@@ -39,7 +38,10 @@ export type Content = {
   };
 };
 
-export type CreateUser = Omit<IReadUser, 'id' | 'createdAt' | 'updatedAt' | 'company'>;
+export type CreateUser = Omit<IReadUser, 'id' | 'createdAt' | 'updatedAt' | 'company'> & {
+  password: string;
+};
+
 export type CreateCompany = Omit<
   IReadCompany,
   'id' | 'createdAt' | 'updatedAt' | 'content' | 'followupQs' | 'users'

@@ -46,8 +46,16 @@ export const superPermissionsMiddleware = (req: AuthRequest, res: Response, next
   }
   next();
 };
-export const signToken = ({ email, first_name, last_name, id, isAdmin }: IReadUser) => {
-  const payload = { email, first_name, last_name, id, isAdmin };
+export const signToken = ({
+  email,
+  first_name,
+  last_name,
+  id,
+  isAdmin,
+  isSuperAdmin,
+  companyId,
+}: IReadUser) => {
+  const payload = { email, first_name, last_name, id, isAdmin, isSuperAdmin, companyId };
   return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
 };
 export const checkPassword = (password: string, hash: string) => {

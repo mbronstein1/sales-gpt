@@ -1,5 +1,5 @@
+// Path: /api/users
 import { Router } from 'express';
-
 import {
   createUser,
   getUsers,
@@ -8,19 +8,15 @@ import {
   updateUser,
   deleteUser,
 } from '../controllers/users.controller';
-import {
-  authMiddleware,
-  permissionsMiddleware,
-  superPermissionsMiddleware,
-} from '../util/auth.util';
+import { permissionsMiddleware, superPermissionsMiddleware } from '../util/auth.util';
 
 const router = Router();
 
-router.post('/:companyId', authMiddleware, permissionsMiddleware, createUser);
-router.get('/', authMiddleware, superPermissionsMiddleware, getUsers);
-router.get('/:companyId/:userId', authMiddleware, getUserById);
-router.get('/:companyId', authMiddleware, permissionsMiddleware, getUsersByCompanyId);
-router.put('/:companyId/:userId', authMiddleware, permissionsMiddleware, updateUser);
-router.delete('/:companyId/:userId', authMiddleware, permissionsMiddleware, deleteUser);
+router.post('/:companyId', permissionsMiddleware, createUser);
+router.get('/', superPermissionsMiddleware, getUsers);
+router.get('/:companyId/:userId', getUserById);
+router.get('/:companyId', permissionsMiddleware, getUsersByCompanyId);
+router.put('/:companyId/:userId', permissionsMiddleware, updateUser);
+router.delete('/:companyId/:userId', permissionsMiddleware, deleteUser);
 
 export default router;

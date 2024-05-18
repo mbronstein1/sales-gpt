@@ -17,14 +17,13 @@ FROM node:21-slim AS development
 WORKDIR /app/server
 RUN apt-get update && apt-get install -y openssl \
     && rm -rf /var/lib/apt/lists/*
-COPY /server/package.json .
+COPY /server/package*.json .
 RUN npm install
 COPY /server/prisma ./prisma
 COPY /server .
 RUN npm install -g nodemon
-RUN npx prisma generate
 EXPOSE 3000
-CMD ["npm", "run", "dev"]
+CMD sh -c "npx prisma generate && npm run dev"
 
 
 # Production stage
@@ -40,7 +39,7 @@ WORKDIR /app/server
 RUN apt-get update && apt-get install -y openssl \
     && rm -rf /var/lib/apt/lists/*
 
-COPY /server/package.json .
+COPY /server/package*.json .
 COPY /server/prisma ./prisma
 COPY /server .
 
@@ -63,7 +62,3 @@ EXPOSE 3000
 
 # Use the entrypoint script
 CMD ["sh", "/app/server/entrypoint.sh"]
-
-
-
-
