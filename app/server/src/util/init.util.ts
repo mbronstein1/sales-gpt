@@ -111,8 +111,8 @@ const initialCompanyContent = {
 const initializeDB = async () => {
   try {
     const [user, company] = await Promise.all([
-      db.findOne('email', initialUser.email, 'user'),
-      db.findOne('name', initialCompany.name, 'company'),
+      db.findOne('user', { where: { email: initialUser.email } }),
+      db.findOne('company', { where: { name: initialCompany.name } }),
     ]);
 
     if (user || company) {

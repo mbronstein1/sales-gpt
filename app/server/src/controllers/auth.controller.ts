@@ -6,7 +6,7 @@ import { signupAdminSchema } from '../util/validator.util';
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const user = await db.findOne('email', email, 'user');
+  const user = await db.findOne('user', { where: { email } });
 
   if (!user) {
     return res.status(404).send('User not found');
@@ -33,9 +33,9 @@ export const signupAdmin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const { companyName } = req.params;
   const [userExists, companyExists, content] = await Promise.all([
-    db.findOne('email', email, 'user'),
-    db.findOne('name', companyName, 'company'),
-    db.findFirst('isShared', true, 'content'),
+    db.findOne('user', { where: { email } }),
+    db.findOne('company', { where: { name: companyName } }),
+    db.findFirst('content', { where: { isShared: true } }),
   ]);
 
   if (userExists) {

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
@@ -7,44 +7,30 @@ export const prisma = globalForPrisma.prisma || new PrismaClient();
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 export default {
-  findMany: async (table: string, prismaInstance?: PrismaClient) => {
+  findMany: async (table: string, options?: any, prismaInstance?: PrismaClient) => {
     const prismaClient = prismaInstance || prisma;
     try {
-      const result = await (prismaClient as any)[table].findMany();
+      const result = await (prismaClient as any)[table].findMany(options || ({} as any));
       return result;
     } catch (error) {
       console.error('Error fetching records from the database: ', error);
       return [];
     }
   },
-  findOne: async <T>(
-    searchKey: string,
-    searchVal: T,
-    table: string,
-    prismaInstance?: PrismaClient
-  ) => {
+  findOne: async (table: string, options: any, prismaInstance?: PrismaClient) => {
     const prismaClient = prismaInstance || prisma;
     try {
-      const result = await (prismaClient as any)[table].findUnique({
-        where: { [searchKey]: searchVal },
-      });
+      const result = await (prismaClient as any)[table].findUnique(options);
       return result;
     } catch (error) {
       console.error('Error fetching record from the database: ', error);
       return null;
     }
   },
-  findFirst: async <T>(
-    searchKey: string,
-    searchVal: T,
-    table: string,
-    prismaInstance?: PrismaClient
-  ) => {
+  findFirst: async (table: string, options: any, prismaInstance?: PrismaClient) => {
     const prismaClient = prismaInstance || prisma;
     try {
-      const result = await (prismaClient as any)[table].findFirst({
-        where: { [searchKey]: searchVal },
-      });
+      const result = await (prismaClient as any)[table].findFirst(options);
       return result;
     } catch (error) {
       console.error('Error fetching record from the database: ', error);

@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import db from '../util/db.util';
-import prisma from '../util/db.util';
 
 const selectOptions = {
   id: true,
   first_name: true,
   last_name: true,
   email: true,
+  company: true,
 };
 
 export const createUser = async (req: Request, res: Response) => {
@@ -22,15 +22,14 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  const user = await db.findOne('id', userId, 'user');
+  const user = await db.findOne('user', { where: { id: userId } });
   res.status(200).json(user);
 };
 
 export const getUsersByCompanyId = async (req: Request, res: Response) => {
   const { companyId } = req.params;
-  const users = await (prisma as any).user.findMany({
+  const users = await db.findMany('user', {
     where: { companyId },
-    include: { company: true },
     select: selectOptions,
   });
   res.status(200).json(users);
