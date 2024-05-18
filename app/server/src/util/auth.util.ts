@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { IReadUser } from '../types/db.types';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -7,10 +7,12 @@ const secret = 'super_secret_key';
 const expiration = '2h';
 
 interface AuthRequest extends Request {
-  user: IReadUser;
+  user?: IReadUser;
 }
 
-export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+type AuthMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => void;
+
+export const authMiddleware: AuthMiddleware = (req, res, next) => {
   let token = req.body.token || req.query.token || req.headers.authorization;
 
   if (req.headers.authorization) {
@@ -32,8 +34,14 @@ export const authMiddleware = (req: AuthRequest, res: Response, next: NextFuncti
     res.status(401).send('Invalid token');
   }
 };
-export const permissionsMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
-  if (!req.user.isAdmin) {
+export const permissionsMiddleware: AuthMiddleware = (req, res, next) => {
+  if (!req.user?.isAdmin || (req.params.companyId && req.params.companyId !== req.user.companyId)) {
+    return res.status(403).send('Unauthorized');
+  }
+  next();
+};
+export const superPermissionsMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user?.isSuperAdmin) {
     return res.status(403).send('Unauthorized');
   }
   next();

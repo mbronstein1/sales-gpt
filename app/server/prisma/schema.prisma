@@ -30,6 +30,7 @@ model User {
   last_name      String
   password  String
   isAdmin  Boolean
+  isSuperAdmin Boolean @default(false)
   company Company @relation(fields: [companyId], references: [id])
   companyId String
   createdAt DateTime @default(now())

@@ -7,6 +7,7 @@ export type IReadUser = {
   last_name: string;
   password: string;
   isAdmin: boolean;
+  isSuperAdmin: boolean;
   company: IReadCompany;
   companyId: string;
   createdAt: Date;

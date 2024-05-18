@@ -2,6 +2,15 @@
 run-migrate:
 	docker exec -it sales-gpt npx prisma migrate dev
 
+create-migrate-file:
+	docker exec -it sales-gpt npx prisma migrate dev --create-only
+
+upgrade-migrate:
+	docker exec -it sales-gpt npx prisma migrate deploy
+
+check-migrate-status:
+	docker exec -it sales-gpt npx prisma migrate status
+
 run-dev-build:
 	docker compose up --build
 

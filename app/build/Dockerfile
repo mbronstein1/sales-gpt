@@ -29,25 +29,41 @@ CMD ["npm", "run", "dev"]
 
 # Production stage
 FROM node:21-slim AS production
+
+# Create a non-root user
+RUN useradd -ms /bin/bash appuser
+
 WORKDIR /app
 COPY --from=frontend-builder /build/dist ./client
 WORKDIR /app/server
+
 RUN apt-get update && apt-get install -y openssl \
     && rm -rf /var/lib/apt/lists/*
+
 COPY /server/package.json .
 COPY /server/prisma ./prisma
 COPY /server .
+
 RUN npm install
 RUN npx prisma generate
 RUN npm run build
 RUN npm prune --production
+
+# Ensure all files are owned by the non-root user
+RUN chown -R appuser:appuser /app
+
+# Switch to the non-root user
+USER appuser
+
+# Copy and set permissions for the entrypoint script
+COPY entrypoint.sh /app/server/entrypoint.sh
+RUN chmod +x /app/server/entrypoint.sh
+
 EXPOSE 3000
-RUN if [ -d "./dist" ]; then \
-        rm -rf ./src/* ./server.ts; \
-        mv ./dist/* .; \
-        rm -rf ./dist; \
-    fi
-CMD ["sh", "-c", "npx prisma migrate deploy && npm start"]
+
+# Use the entrypoint script
+CMD ["sh", "/app/server/entrypoint.sh"]
+
 
 
 

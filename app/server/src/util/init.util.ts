@@ -8,6 +8,7 @@ const initialUser = {
   first_name: 'GPT',
   last_name: 'Admin',
   isAdmin: true,
+  isSuperAdmin: true,
 };
 
 const initialCompany = {
