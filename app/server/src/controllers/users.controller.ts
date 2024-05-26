@@ -37,12 +37,12 @@ export const getUsersByCompanyId = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  const updatedUser = await db.update(userId, req.body, 'user');
+  const updatedUser = await db.update(req.body, 'user', { where: { id: userId } });
   res.status(200).json(updatedUser);
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  await db.delete(userId, 'user');
+  await db.delete('user', { where: { id: userId } });
   res.status(204).send();
 };

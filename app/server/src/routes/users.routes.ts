@@ -12,10 +12,10 @@ import { permissionsMiddleware, superPermissionsMiddleware } from '../util/auth.
 
 const router = Router();
 
-router.post('/:companyId', permissionsMiddleware, createUser);
 router.get('/', superPermissionsMiddleware, getUsers);
 router.get('/:companyId/:userId', getUserById);
 router.get('/:companyId', permissionsMiddleware, getUsersByCompanyId);
+router.post('/:companyId', permissionsMiddleware, createUser);
 router.put('/:companyId/:userId', permissionsMiddleware, updateUser);
 router.delete('/:companyId/:userId', permissionsMiddleware, deleteUser);
 

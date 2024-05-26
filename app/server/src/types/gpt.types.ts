@@ -1,4 +1,4 @@
-interface Prompt {
+export interface Prompt {
   title: string;
   prompt: string;
   gridCoordinates: {

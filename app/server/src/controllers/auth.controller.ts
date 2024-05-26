@@ -1,12 +1,16 @@
 import { Request, Response } from 'express';
-import db from '../util/db.util';
+import db, { prisma } from '../util/db.util';
 import { checkPassword, signToken, hashPassword } from '../util/auth.util';
-import { prisma } from '../util/db.util';
 import { signupAdminSchema } from '../util/validator.util';
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const user = await db.findOne('user', { where: { email } });
+
+  console.log('base url', req.baseUrl);
+  console.log('original url', req.originalUrl);
+  console.log('url', req.url);
+  console.log('path', req.path);
 
   if (!user) {
     return res.status(404).send('User not found');

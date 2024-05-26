@@ -47,20 +47,20 @@ export default {
       return null;
     }
   },
-  update: async (id: string, data: any, table: string, prismaInstance?: PrismaClient) => {
+  update: async (data: any, table: string, options: any, prismaInstance?: PrismaClient) => {
     const prismaClient = prismaInstance || prisma;
     try {
-      const result = await (prismaClient as any)[table].update({ where: { id }, data });
+      const result = await (prismaClient as any)[table].update({ ...options, data });
       return result;
     } catch (error) {
       console.error('Error updating record in the database: ', error);
       return null;
     }
   },
-  delete: async (id: string, table: string, prismaInstance?: PrismaClient) => {
+  delete: async (table: string, options: any, prismaInstance?: PrismaClient) => {
     const prismaClient = prismaInstance || prisma;
     try {
-      const result = await (prismaClient as any)[table].delete({ where: { id } });
+      const result = await (prismaClient as any)[table].delete({ ...options });
       return result;
     } catch (error) {
       console.error('Error deleting record from the database: ', error);
