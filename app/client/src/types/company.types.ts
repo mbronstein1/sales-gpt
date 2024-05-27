@@ -1,5 +1,5 @@
-import { IReadContent } from './content-type';
-import { IReadUser } from './user-types';
+import { IReadContent } from './content.types';
+import { IReadUser } from './user.types';
 
 export interface IReadCompany {
   id: string;

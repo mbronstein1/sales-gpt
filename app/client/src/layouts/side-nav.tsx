@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 
 const SIDE_NAV_WIDTH = 280;
 
-export const SideNav = () => {
+const SideNav = () => {
   return (
     <Drawer
       anchor="left"
@@ -21,3 +21,5 @@ export const SideNav = () => {
     </Drawer>
   );
 };
+
+export default SideNav;

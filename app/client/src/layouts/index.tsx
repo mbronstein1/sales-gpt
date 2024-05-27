@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { styled } from '@mui/material/styles';
-import { SideNav } from './side-nav';
+import SideNav from './side-nav';
 import { withAuthGuard } from '../hocs/with-auth-guard';
 
 interface LayoutProps {

@@ -5,15 +5,15 @@ import { signupAdminSchema } from '../util/validator.util';
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
+  const { admin } = req.query;
   const user = await db.findOne('user', { where: { email } });
-
-  console.log('base url', req.baseUrl);
-  console.log('original url', req.originalUrl);
-  console.log('url', req.url);
-  console.log('path', req.path);
 
   if (!user) {
     return res.status(404).send('User not found');
+  }
+
+  if (admin === 'true' && !user?.isAdmin) {
+    return res.status(401).send('Unauthorized');
   }
 
   const isValid = checkPassword(password, user.password);

@@ -1,4 +1,4 @@
-import { IReadCompany } from './company-types';
+import { IReadCompany } from './company.types';
 
 export interface IReadUser {
   id: string;
