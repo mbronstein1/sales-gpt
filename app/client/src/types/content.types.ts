@@ -3,7 +3,7 @@ import { IReadCompany } from './company.types';
 export interface IReadContent {
   id: string;
   category: string;
-  data: ContentData;
+  data: ContentData[];
   companies: IReadCompany[];
   isShared: boolean;
 }
