@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import Home from '../pages/Home';
 import { authRoutes } from './auth';
 import AdminDash from '../pages/AdminDash';
+import Users from '../pages/Users';
 
 export const routes = [
   {
@@ -22,6 +23,10 @@ export const routes = [
       {
         path: 'admin',
         element: <AdminDash />,
+      },
+      {
+        path: 'admin/users',
+        element: <Users />,
       },
     ],
   },

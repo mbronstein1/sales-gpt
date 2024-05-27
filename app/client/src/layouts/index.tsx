@@ -2,12 +2,13 @@ import type { ReactNode } from 'react';
 import { styled } from '@mui/material/styles';
 import SideNav from './side-nav';
 import { withAuthGuard } from '../hocs/with-auth-guard';
+import { ContentProvider } from '../contexts/content/content-provider';
 
 interface LayoutProps {
   children?: ReactNode;
 }
 
-const SIDE_NAV_WIDTH = 280;
+const SIDE_NAV_WIDTH = 240;
 
 const MainLayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -35,11 +36,13 @@ interface LayoutProps {
 export const Layout = withAuthGuard(({ children }: LayoutProps) => {
   return (
     <>
-      <SideNav />
+      <ContentProvider>
+        <SideNav SIDE_NAV_WIDTH={SIDE_NAV_WIDTH} />
 
-      <MainLayoutRoot>
-        <MainLayoutContainer>{children}</MainLayoutContainer>
-      </MainLayoutRoot>
+        <MainLayoutRoot>
+          <MainLayoutContainer>{children}</MainLayoutContainer>
+        </MainLayoutRoot>
+      </ContentProvider>
     </>
   );
 });

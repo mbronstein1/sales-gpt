@@ -24,3 +24,19 @@ export interface ICreateContent {
   category: string;
   data: ContentData;
 }
+
+export interface GetAllContentArgs {
+  companyId: string;
+}
+
+export interface GetContentByIdArgs extends GetAllContentArgs {
+  contentId: string;
+}
+
+export interface CreateContentArgs extends GetAllContentArgs {
+  data: ICreateContent;
+}
+
+export interface UpdateContentArgs extends GetContentByIdArgs {
+  data: ICreateContent;
+}

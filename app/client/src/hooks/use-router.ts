@@ -5,6 +5,10 @@ type NavigateOptions = object;
 
 interface Router {
   /**
+   * The current location.
+   */
+  location: Location;
+  /**
    * Navigate to the previous history entry.
    */
   back(): void;
@@ -46,6 +50,7 @@ export const useRouter = (): Router => {
 
   return useMemo(() => {
     return {
+      location: window.location,
       back: () => navigate(-1),
       forward: () => navigate(1),
       refresh: () => navigate(0),

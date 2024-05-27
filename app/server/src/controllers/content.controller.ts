@@ -33,6 +33,7 @@ export const getAllContentByCompanyId = async (req: Request, res: Response) => {
         },
       },
     },
+    orderBy: { category: 'asc' },
   });
 
   if (!content) {
