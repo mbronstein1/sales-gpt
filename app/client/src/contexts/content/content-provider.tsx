@@ -4,9 +4,10 @@ import { getAllContent } from '../../services/content.services';
 import { useSelector } from '../../store';
 import { getProfile } from '../../util/auth.util';
 import { ContentContext } from './content-context';
+import { IReadContent } from '../../types/content.types';
 
 export const ContentProvider = ({ children }: { children: ReactNode }) => {
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState<IReadContent[]>([]);
   const [selectedContentIndex, setSelectedContentIndex] = useState(0);
 
   const { authToken } = useSelector((state) => state.auth);
@@ -34,6 +35,7 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
     <ContentContext.Provider
       value={{
         content,
+        setContent,
         selectedContentIndex,
         setSelectedContentIndex,
         isLoading,
