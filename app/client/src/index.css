@@ -6,3 +6,51 @@ body {
   background-color: #f0f0f0;
   box-sizing: border-box;
 }
+
+/* Spinner animations */
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 10px solid #f3f3f3; /* Light grey */
+  border-top: 10px solid #383636; /* Black */
+  border-radius: 50%;
+  animation: spinner 1.5s linear infinite;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Ellipses animations */
+.ellipses {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ellipses::after {
+  content: '.';
+  animation: showEllipses 1s infinite steps(3);
+}
+
+@keyframes showEllipses {
+  0% {
+    content: '.';
+  }
+  33% {
+    content: '..';
+  }
+  66% {
+    content: '...';
+  }
+}

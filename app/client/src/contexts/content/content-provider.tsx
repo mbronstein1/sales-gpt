@@ -10,6 +10,7 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   const [content, setContent] = useState<IReadContent[]>([]);
   const [selectedContentIndex, setSelectedContentIndex] = useState(0);
   const [newCategories, setNewCategories] = useState<string[]>([]);
+  const [gptResponse, setGptResponse] = useState<IReadContent[]>([]);
 
   const { authToken } = useSelector((state) => state.auth);
   const { fetchData: getContent, isLoading } = useHttp(getAllContent);
@@ -42,6 +43,8 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
         isLoading,
         newCategories,
         setNewCategories,
+        gptResponse,
+        setGptResponse,
       }}
     >
       {children}

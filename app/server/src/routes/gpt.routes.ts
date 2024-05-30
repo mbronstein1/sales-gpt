@@ -4,7 +4,7 @@ import { generateFollowUp, generateResponse } from '../controllers/gpt.controlle
 
 const router = express.Router();
 
-router.get('/generate/:companyId', generateResponse);
-router.get('/generate/:companyId/:category/follow-up', generateFollowUp);
+router.post('/generate/:companyId', generateResponse);
+router.post('/generate/:companyId/:category/follow-up', generateFollowUp);
 
 export default router;

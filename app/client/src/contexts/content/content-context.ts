@@ -9,6 +9,8 @@ export interface ContentContextType {
   isLoading: boolean;
   newCategories: string[];
   setNewCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  gptResponse: IReadContent[];
+  setGptResponse: React.Dispatch<React.SetStateAction<IReadContent[]>>;
 }
 
 export const ContentContext = createContext<ContentContextType>({
@@ -19,4 +21,6 @@ export const ContentContext = createContext<ContentContextType>({
   isLoading: false,
   newCategories: [],
   setNewCategories: () => {},
+  gptResponse: [],
+  setGptResponse: () => {},
 });

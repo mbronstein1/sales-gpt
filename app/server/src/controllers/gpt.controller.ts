@@ -14,30 +14,16 @@ const validateFields = (req: Request, res: Response) => {
 export const generateResponse = async (req: Request, res: Response) => {
   if (!validateFields(req, res)) return;
   try {
-    const content = await db.findMany('content', {
-      where: {
-        category: req.body.category,
-        companies: {
-          some: {
-            company: { id: req.params.companyId },
-          },
-        },
-      },
-    });
+    const content = req.body;
 
-    if (!content) {
-      res.status(404).send('Content for company and category not found');
-      return;
-    }
-
-    const data = await createChat({ ...content[0], company: req.body.company } as FullPrompt);
+    const data = await createChat(content as FullPrompt);
     const formattedResponse = {
       company: req.body.company,
       category: req.body.category,
       data: data.map((d: FullResponse, i: number) => ({
         ...d,
-        gridCoordinates: content[0].data[i].gridCoordinates,
-        color: content[0].data[i].color,
+        gridCoordinates: content.data[i].gridCoordinates,
+        color: content.data[i].color,
       })),
     };
     res.send(formattedResponse);
