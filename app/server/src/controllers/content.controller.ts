@@ -91,7 +91,7 @@ export const createContent = async (req: Request, res: Response) => {
     return content;
   });
 
-  res.status(201).json(newContent);
+  res.status(201).json('Content created successfully');
 };
 
 export const updateContent = async (req: Request, res: Response) => {
@@ -122,8 +122,6 @@ export const updateContent = async (req: Request, res: Response) => {
         );
 
         if (!newContent) throw new Error('Error creating new content');
-
-        console.log('newContent', newContent);
 
         const response = await db.update(
           { contentId: newContent.id },

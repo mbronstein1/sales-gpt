@@ -15,11 +15,11 @@ export const getCompanyById = async (req: Request, res: Response) => {
 export const updateCompany = async (req: Request, res: Response) => {
   const { companyId } = req.params;
   const updatedCompany = await db.update(req.body, 'company', { where: { id: companyId } });
-  res.status(200).json(updatedCompany);
+  res.status(200).json('Company updated');
 };
 
 export const deleteCompany = async (req: Request, res: Response) => {
   const { companyId } = req.params;
   await db.delete('company', { where: { id: companyId } });
-  res.status(204).send();
+  res.status(204).send('Company deleted');
 };

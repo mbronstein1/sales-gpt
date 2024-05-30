@@ -7,6 +7,8 @@ export interface ContentContextType {
   selectedContentIndex: number;
   setSelectedContentIndex: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
+  newCategories: string[];
+  setNewCategories: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const ContentContext = createContext<ContentContextType>({
@@ -15,4 +17,6 @@ export const ContentContext = createContext<ContentContextType>({
   selectedContentIndex: 0,
   setSelectedContentIndex: () => {},
   isLoading: false,
+  newCategories: [],
+  setNewCategories: () => {},
 });

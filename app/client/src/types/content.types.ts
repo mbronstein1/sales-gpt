@@ -1,10 +1,7 @@
-import { IReadCompany } from './company.types';
-
 export interface IReadContent {
-  id: string;
+  id?: string;
   category: string;
   data: ContentData[];
-  companies: IReadCompany[];
   isShared: boolean;
 }
 

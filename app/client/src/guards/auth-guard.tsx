@@ -20,7 +20,7 @@ export const AuthGuard: FC<AuthGuardProps> = (props) => {
       router.replace(paths.index);
     }
 
-    if (!authToken) {
+    if (!authToken && !window.location.pathname.includes(paths.login)) {
       const href = paths.login;
       toast.error('Not authenticated, please login.');
       router.replace(href);

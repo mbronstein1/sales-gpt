@@ -9,6 +9,7 @@ import { IReadContent } from '../../types/content.types';
 export const ContentProvider = ({ children }: { children: ReactNode }) => {
   const [content, setContent] = useState<IReadContent[]>([]);
   const [selectedContentIndex, setSelectedContentIndex] = useState(0);
+  const [newCategories, setNewCategories] = useState<string[]>([]);
 
   const { authToken } = useSelector((state) => state.auth);
   const { fetchData: getContent, isLoading } = useHttp(getAllContent);
@@ -39,6 +40,8 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
         selectedContentIndex,
         setSelectedContentIndex,
         isLoading,
+        newCategories,
+        setNewCategories,
       }}
     >
       {children}

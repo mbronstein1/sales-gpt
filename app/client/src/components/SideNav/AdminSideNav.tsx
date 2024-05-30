@@ -1,21 +1,51 @@
-import { useMemo } from 'react';
-import { getProfile } from '../../util/auth.util';
-import { useDispatch, useSelector } from '../../store';
-import { Button, Stack, Typography /*useTheme*/ } from '@mui/material';
+import { useState } from 'react';
+import { useDispatch } from '../../store';
+import {
+  Button,
+  FormControl,
+  IconButton,
+  Stack,
+  SvgIcon,
+  TextField,
+  Typography /*useTheme*/,
+} from '@mui/material';
 import { useContentContext } from '../../hooks/use-content-context';
 import VerticalTabs from '../Mui/VerticalTabs';
 import { logout } from '../../slices/auth';
 import { useRouter } from '../../hooks/use-router';
 // import { RouterLink } from '../Mui/RouterLink';
 import { paths } from '../../paths';
+import { useAuth } from '../../hooks/use-auth';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 
 const AdminSideNav = () => {
-  const { setSelectedContentIndex, selectedContentIndex, content } = useContentContext();
-  const { authToken } = useSelector((state) => state.auth);
-  const user = useMemo(() => getProfile(authToken), [authToken]);
+  const [newCategory, setNewCategory] = useState('');
+  const [addNewCategory, setAddNewCategory] = useState(false);
+
+  const { setSelectedContentIndex, selectedContentIndex, content, setContent, setNewCategories } =
+    useContentContext();
+  const { profile: user } = useAuth();
+
   const dispatch = useDispatch();
   const router = useRouter();
   //   const theme = useTheme();
+
+  const handleAddNewCategory = () => {
+    setContent((prev) => {
+      return [
+        ...prev,
+        {
+          category: newCategory,
+          data: [],
+          isShared: false,
+        },
+      ];
+    });
+
+    setNewCategories((prev) => [...prev, newCategory]);
+    setNewCategory('');
+    setAddNewCategory(false);
+  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -32,6 +62,34 @@ const AdminSideNav = () => {
         selectedContentIndex={selectedContentIndex}
         setSelectedContentIndex={setSelectedContentIndex}
       />
+      {addNewCategory && (
+        <FormControl component="form" sx={{ m: 2 }} onSubmit={handleAddNewCategory}>
+          <TextField
+            size="small"
+            label="New Category"
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.target.value)}
+            variant="outlined"
+            fullWidth
+          />
+          <Button sx={{ width: 10, mt: 1, mx: 'auto' }} variant="contained" type="submit">
+            Add
+          </Button>
+        </FormControl>
+      )}
+      <IconButton
+        onClick={() => setAddNewCategory(true)}
+        sx={{ mx: 'auto' }}
+        // sx={{
+        //   '&.MuiButtonBase-root:hover': {
+        //     bgcolor: 'transparent',
+        //   },
+        // }}
+      >
+        <SvgIcon>
+          <AddBoxOutlinedIcon />
+        </SvgIcon>
+      </IconButton>
       {/* <Button
         component={RouterLink}
         href={paths.users}
@@ -44,7 +102,9 @@ const AdminSideNav = () => {
       >
         User Management
       </Button> */}
-      <Button onClick={handleLogout}>Logout</Button>
+      <Button onClick={handleLogout} sx={{ mt: 'auto' }}>
+        Logout
+      </Button>
     </Stack>
   );
 };

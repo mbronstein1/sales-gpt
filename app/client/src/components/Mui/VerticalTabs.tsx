@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 
 interface TabDataProps {
   content: {
-    id: string;
+    id?: string;
     category: string;
   }[];
   selectedContentIndex: number;
@@ -32,12 +32,11 @@ export default function VerticalTabs({
   return (
     <Box
       sx={{
-        flexGrow: 1,
         bgcolor: 'background.paper',
         display: 'flex',
-        height: 224,
+        maxHeight: 'calc(100vh - 200px)',
         overflowY: 'auto',
-        my: 2,
+        mt: 2,
       }}
     >
       <Tabs
@@ -55,7 +54,7 @@ export default function VerticalTabs({
         {content.map((tab, index) => (
           <Tab
             disableRipple
-            key={tab.id}
+            key={tab?.id || index}
             label={tab.category}
             {...a11yProps(index)}
             value={index}

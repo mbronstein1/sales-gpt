@@ -11,7 +11,6 @@ import {
 import { RouterLink } from '../components/Mui/RouterLink';
 import { useCallback, useState } from 'react';
 import { LoginData } from '../types/auth.types';
-import useHttp from '../hooks/use-http';
 import { login as loginService } from '../services/auth.services';
 import { useDispatch } from '../store';
 import { login } from '../slices/auth';
@@ -22,10 +21,10 @@ import { withAuthGuard } from '../hocs/with-auth-guard';
 
 const Login = withAuthGuard(() => {
   const [formData, setFormData] = useState<LoginData>({ email: '', password: '', isAdmin: false });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
   const dispatch = useDispatch();
-  const { fetchData: loginUser, isLoading } = useHttp(loginService);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -51,14 +50,22 @@ const Login = withAuthGuard(() => {
         return toast.error('Please enter a valid email address');
       }
 
-      const response = await loginUser(formData);
+      try {
+        setIsLoading(true);
+        const response = await loginService(formData);
 
-      if (response) {
-        dispatch(login(response.data));
-        router.push(formData.isAdmin ? paths.adminDash : paths.index);
+        if (response) {
+          dispatch(login(response.data));
+          router.push(formData.isAdmin ? paths.adminDash : paths.index);
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        toast.error(err.response.data);
+      } finally {
+        setIsLoading(false);
       }
     },
-    [formData, loginUser, dispatch, router]
+    [formData, dispatch, router]
   );
 
   return (
@@ -107,7 +114,7 @@ const Login = withAuthGuard(() => {
           onChange={handleChange}
         />
         <Stack my={2}>
-          <Button variant="contained" size="large" type="submit" disabled={isLoading}>
+          <Button variant="contained" size="large" type="submit">
             Login
           </Button>
         </Stack>
@@ -120,7 +127,14 @@ const Login = withAuthGuard(() => {
           </Link>
         </Stack>
         <FormControlLabel
-          control={<Checkbox size="small" checked={formData.isAdmin} onChange={handleCheck} />}
+          control={
+            <Checkbox
+              size="small"
+              checked={formData.isAdmin}
+              onChange={handleCheck}
+              disabled={isLoading}
+            />
+          }
           label="Admin Dashboard"
         />
       </Stack>
