@@ -5,12 +5,13 @@ import { useSelector } from '../../store';
 import { getProfile } from '../../util/auth.util';
 import { ContentContext } from './content-context';
 import { IReadContent } from '../../types/content.types';
+import { IReadGPTResponse } from '../../types/gpt.types';
 
 export const ContentProvider = ({ children }: { children: ReactNode }) => {
   const [content, setContent] = useState<IReadContent[]>([]);
   const [selectedContentIndex, setSelectedContentIndex] = useState(0);
   const [newCategories, setNewCategories] = useState<string[]>([]);
-  const [gptResponse, setGptResponse] = useState<IReadContent[]>([]);
+  const [gptResponse, setGptResponse] = useState<IReadGPTResponse>({} as IReadGPTResponse);
 
   const { authToken } = useSelector((state) => state.auth);
   const { fetchData: getContent, isLoading } = useHttp(getAllContent);

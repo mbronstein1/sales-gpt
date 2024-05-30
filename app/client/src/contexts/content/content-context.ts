@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { IReadContent } from '../../types/content.types';
+import { IReadGPTResponse } from '../../types/gpt.types';
 
 export interface ContentContextType {
   content: IReadContent[];
@@ -9,8 +10,8 @@ export interface ContentContextType {
   isLoading: boolean;
   newCategories: string[];
   setNewCategories: React.Dispatch<React.SetStateAction<string[]>>;
-  gptResponse: IReadContent[];
-  setGptResponse: React.Dispatch<React.SetStateAction<IReadContent[]>>;
+  gptResponse: IReadGPTResponse;
+  setGptResponse: React.Dispatch<React.SetStateAction<IReadGPTResponse>>;
 }
 
 export const ContentContext = createContext<ContentContextType>({
@@ -21,6 +22,6 @@ export const ContentContext = createContext<ContentContextType>({
   isLoading: false,
   newCategories: [],
   setNewCategories: () => {},
-  gptResponse: [],
+  gptResponse: {} as IReadGPTResponse,
   setGptResponse: () => {},
 });

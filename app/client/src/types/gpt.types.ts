@@ -17,8 +17,21 @@ export interface ICreateFullGPTPrompt {
 }
 
 export interface IReadGPTResponse {
-  title: string;
+  company: string;
+  category: string;
+  data: IReadGptData[];
+}
+
+export interface IReadGptData {
+  color: string;
   content: string | string[];
+  gridCoordinates: {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  };
+  title: string;
 }
 
 export interface FollowUpGPTPrompt {

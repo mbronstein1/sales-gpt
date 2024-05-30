@@ -19,10 +19,11 @@ export const createChat = async (prompt: FullPrompt) => {
     const messages: ChatCompletionMessageParam[] = [
       {
         role: 'system',
-        content: `Please return each full response in a single line, stringified, minified raw array with the following raw JSON format: { "title": <title>, "content": <content> }. 
+        content: `Please return the entire response in a single JSON array with the following format:
+        [{"title": "<title>", "content": <content>}]. 
         If the prompt calls for bullet points, return an array for the "content" key. Otherwise, return a string for the "content" key. 
         Ensure the title matches the prompt title exactly. 
-        Return raw JSON without any extraneous formatting, comments, or newline characters that would prevent the JSON from being parsed.`,
+        Do not return individual JSON objects separated by newline characters. Return a single JSON array without any extraneous formatting, comments, or newline characters that would prevent the JSON from being parsed.`,
       },
       ...prompt.data.map((prompt, index) => ({
         role: 'user' as const,
@@ -46,8 +47,15 @@ export const createChat = async (prompt: FullPrompt) => {
       throw new Error('Received null content from GPT API');
     }
 
-    const lines = content.split('\n').filter((line) => line.trim() !== '');
-    const data = lines.map((line) => JSON.parse(line));
+    // Attempt to parse the entire content as a single JSON array
+    let data;
+    try {
+      data = JSON.parse(content);
+    } catch (e) {
+      // If parsing fails, try to handle individual JSON objects
+      const lines = content.split('\n').filter((line) => line.trim() !== '');
+      data = lines.map((line) => JSON.parse(line));
+    }
 
     return data;
   } catch (error) {

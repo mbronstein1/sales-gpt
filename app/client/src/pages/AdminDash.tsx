@@ -303,7 +303,9 @@ const AdminDash = () => {
                         </IconButton>
                       </Stack>
                     </Stack>
-                    <Box sx={{ padding: '0 5px 5px' }}>{d.prompt}</Box>
+                    <Box sx={{ padding: '0 5px 5px' }}>
+                      <Typography variant="body1">{d.prompt}</Typography>
+                    </Box>
                   </>
                 )}
               </Box>

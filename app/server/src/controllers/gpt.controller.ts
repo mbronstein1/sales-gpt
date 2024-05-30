@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { createChat, createFollowUp } from '../util/gpt.util';
 import { FollowUpPrompt, FullPrompt, FullResponse } from '../types/gpt.types';
-import db from '../util/db.util';
 
 const validateFields = (req: Request, res: Response) => {
   if (!req.body.company || !req.body.category) {
