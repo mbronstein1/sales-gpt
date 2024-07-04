@@ -1,3 +1,4 @@
+import ReactMarkdown from 'react-markdown';
 import { Box, List, ListItem, Stack, SvgIcon, Typography } from '@mui/material';
 import { useContentContext } from '../hooks/use-content-context';
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
@@ -45,20 +46,24 @@ const Home = () => {
                   <Box sx={{ padding: '0 5px 5px' }}>
                     {Array.isArray(response.content) ? (
                       <List sx={{ listStyleType: 'disc', pl: 2 }}>
-                        {response.content.map((content, index) => (
+                        {response.content.map((contentItem, itemIndex) => (
                           <ListItem
                             disablePadding
-                            key={index}
+                            key={itemIndex}
                             sx={{
                               display: 'list-item',
                             }}
                           >
-                            <Typography variant="body1">{content}</Typography>
+                            <Typography variant="body1">
+                              <ReactMarkdown>{contentItem}</ReactMarkdown>
+                            </Typography>
                           </ListItem>
                         ))}
                       </List>
                     ) : (
-                      <Typography variant="body1">{response.content}</Typography>
+                      <Typography variant="body1">
+                        <ReactMarkdown>{response.content}</ReactMarkdown>
+                      </Typography>
                     )}
                   </Box>
                 </Box>
