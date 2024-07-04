@@ -23,9 +23,6 @@ const MainLayoutContainer = styled('div')({
   display: 'flex',
   flex: '1 1 auto',
   flexDirection: 'column',
-  '@media (max-width: 600px)': {
-    paddingTop: '20px',
-  },
   width: '100%',
   minHeight: `100svh`,
 });

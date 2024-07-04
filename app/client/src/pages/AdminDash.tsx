@@ -21,6 +21,7 @@ import useHttp from '../hooks/use-http';
 import { createContent, updateContent } from '../services/content.services';
 import { useAuth } from '../hooks/use-auth';
 import toast from 'react-hot-toast';
+import useResize from '../hooks/use-resize';
 
 interface Layout {
   i: string;
@@ -39,6 +40,7 @@ const AdminDash = () => {
   const [selectedEditIndex, setSelectedEditIndex] = useState<number | null>(null);
   const [editedContent, setEditedContent] = useState<EditedContent>({ title: '', prompt: '' });
 
+  const { width, containerRef } = useResize();
   const { profile } = useAuth();
   const { content, setContent, selectedContentIndex, newCategories, setNewCategories } =
     useContentContext();
@@ -187,13 +189,13 @@ const AdminDash = () => {
 
   return (
     <>
-      <Box sx={{ height: 700, maxHeight: '90%', overflowY: 'auto' }}>
+      <Box ref={containerRef} sx={{ height: 700, maxHeight: '90%', overflowY: 'auto' }}>
         <GridLayout
           onLayoutChange={handleLayoutChange}
           layout={layout}
           cols={12}
           rowHeight={50}
-          width={1200}
+          width={width - 10}
           useCSSTransforms={false}
         >
           {content[selectedContentIndex].data.map((d, index) => (

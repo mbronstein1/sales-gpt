@@ -4,11 +4,11 @@ import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDou
 import GridLayout from 'react-grid-layout';
 import { useMemo } from 'react';
 import './Dashboard.css';
+import useResize from '../hooks/use-resize';
 
 const Home = () => {
   const { gptResponse } = useContentContext();
-
-  console.log(gptResponse);
+  const { width, containerRef } = useResize();
 
   const layout = useMemo(
     () =>
@@ -23,17 +23,15 @@ const Home = () => {
     [gptResponse]
   );
 
-  console.log(layout);
-
   return (
     <>
       {gptResponse?.data?.length && layout ? (
-        <Box sx={{ height: 700, maxHeight: '90%', overflowY: 'auto' }}>
+        <Box ref={containerRef} sx={{ height: 700, maxHeight: '90%', overflowY: 'auto' }}>
           <GridLayout
             layout={layout}
             cols={12}
             rowHeight={50}
-            width={1200}
+            width={width}
             useCSSTransforms={false}
             isDraggable={false}
             isResizable={false}
