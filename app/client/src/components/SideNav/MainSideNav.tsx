@@ -8,6 +8,7 @@ import { useDispatch } from '../../store';
 import { Button, FormControl, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import useHttp from '../../hooks/use-http';
 import { generateGptResponse } from '../../services/gpt.services';
+import toast from 'react-hot-toast';
 
 interface MainSideNavProps {
   setOpenOverlay: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +32,9 @@ const MainSideNav = ({ setOpenOverlay }: MainSideNavProps) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!selectedContentId || !companyInput)
+      return toast.error('Please select a category and enter a company name');
+
     setOpenOverlay(true);
     const selectedContent = content.find((c) => c.id === selectedContentId);
     if (!selectedContent) return;
@@ -46,7 +50,6 @@ const MainSideNav = ({ setOpenOverlay }: MainSideNavProps) => {
     setOpenOverlay(false);
 
     if (!response) return;
-    console.log(response);
     setGptResponse(response.data);
   };
 

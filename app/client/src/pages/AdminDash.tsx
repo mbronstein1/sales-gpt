@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useContentContext } from '../hooks/use-content-context';
 import GridLayout from 'react-grid-layout';
 import {
@@ -39,6 +39,7 @@ interface EditedContent {
 const AdminDash = () => {
   const [selectedEditIndex, setSelectedEditIndex] = useState<number | null>(null);
   const [editedContent, setEditedContent] = useState<EditedContent>({ title: '', prompt: '' });
+  const [isAddingNewContent, setIsAddingNewContent] = useState(false);
 
   const { width, containerRef } = useResize();
   const { profile } = useAuth();
@@ -46,6 +47,15 @@ const AdminDash = () => {
     useContentContext();
   const { isLoading, fetchData: updateContentRequest } = useHttp(updateContent);
   const { isLoading: isCreatingContent, fetchData: createContentRequest } = useHttp(createContent);
+
+  useEffect(() => {
+    // Assuming each item has a unique identifier like 'id'
+    if (isAddingNewContent) {
+      // scroll to teh bottom of the page
+      containerRef.current?.scrollTo(0, containerRef.current?.scrollHeight);
+      setIsAddingNewContent(false);
+    }
+  }, [isAddingNewContent, containerRef]);
 
   const layout = useMemo(() => {
     if (content.length === 0) return [];
@@ -134,8 +144,8 @@ const AdminDash = () => {
     setContent((prev) => {
       const newPrev = [...prev];
       newPrev[selectedContentIndex].data.push({
-        title: 'New Content',
-        prompt: 'New Prompt',
+        title: '',
+        prompt: '',
         color: '#ffffff',
         gridCoordinates: {
           x: 0,
@@ -148,7 +158,8 @@ const AdminDash = () => {
     });
 
     setSelectedEditIndex(content[selectedContentIndex].data.length - 1);
-    setEditedContent({ title: 'New Content', prompt: 'New Prompt' });
+    setEditedContent({ title: '', prompt: '' });
+    setIsAddingNewContent(true);
   };
 
   const handleConfirmChanges = async () => {
@@ -189,7 +200,11 @@ const AdminDash = () => {
 
   return (
     <>
-      <Box ref={containerRef} sx={{ height: 700, maxHeight: '90%', overflowY: 'auto' }}>
+      <Box
+        ref={containerRef}
+        sx={{ height: 700, maxHeight: '90%', overflowY: 'auto' }}
+        position="relative"
+      >
         <GridLayout
           onLayoutChange={handleLayoutChange}
           layout={layout}
@@ -201,6 +216,7 @@ const AdminDash = () => {
           {content[selectedContentIndex].data.map((d, index) => (
             <Box
               key={index}
+              id={`item-${index}`}
               className="text"
               sx={{ userSelect: 'none', backgroundColor: d.color, p: 1 }}
             >
@@ -211,6 +227,7 @@ const AdminDash = () => {
                       <Box>
                         <TextField
                           name="title"
+                          placeholder="Enter title here..."
                           sx={{ backgroundColor: 'white' }}
                           value={editedContent.title}
                           fullWidth
@@ -257,6 +274,7 @@ const AdminDash = () => {
                     </Stack>
                     <TextField
                       name="prompt"
+                      placeholder="Enter prompt here..."
                       sx={{ backgroundColor: 'white' }}
                       value={editedContent.prompt}
                       fullWidth
@@ -316,21 +334,31 @@ const AdminDash = () => {
         </GridLayout>
       </Box>
       <Stack
-        direction="row"
-        justifyContent="space-between"
-        sx={{ height: '10%', mx: 4 }}
-        alignItems="center"
+        justifyContent="center"
+        sx={{ backgroundColor: 'white' }}
+        position="absolute"
+        py={2}
+        bottom={0}
+        width="calc(100% - 240px)"
       >
-        <Button onClick={handleAddContent} variant="outlined">
-          Add Content
-        </Button>
-        <Button
-          disabled={isLoading || isCreatingContent}
-          onClick={handleConfirmChanges}
-          variant="contained"
+        <Stack
+          direction="row"
+          flexWrap="wrap"
+          gap={2}
+          justifyContent="space-between"
+          sx={{ mx: 4 }}
         >
-          Confirm Changes
-        </Button>
+          <Button onClick={handleAddContent} variant="outlined">
+            Add Content
+          </Button>
+          <Button
+            disabled={isLoading || isCreatingContent}
+            onClick={handleConfirmChanges}
+            variant="contained"
+          >
+            Confirm Changes
+          </Button>
+        </Stack>
       </Stack>
     </>
   );
